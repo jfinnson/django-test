@@ -4,6 +4,7 @@ from happy_team.models import HappyHistory
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'groups')
@@ -16,8 +17,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class HappyHistorySerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
-
     class Meta:
         model = HappyHistory
-        fields = ('createdAt', 'happyLevel', 'user')
+        fields = ('created_at', 'happy_level', 'user')
