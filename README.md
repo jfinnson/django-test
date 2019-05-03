@@ -35,3 +35,28 @@ You will be evaluated with the following in mind:
 * Does the solution run locally based on the provided instructions?
 * Does the solution make good use of tools/frameworks/libraries/APIs?
 * Does the implementation follow established best practices (design patterns, language usage, code formatting, etc..)?
+
+
+################################
+# jfinnson's readme
+
+
+
+## SETUP
+
+Following are required for running locally:
+* virtualenv
+* python 3.X (3.5.2 was used initially)
+* pip
+
+OR
+
+* pycharm
+
+THEN
+1. Create migrations `python manage.py makemigrations`
+2. Run migrations `python manage.py migrate`
+3. Create a super user `python manage.py createsuperuser --email admin@example.com --username admin`
+
+## TO RUN
+* RUN `python manage.py runserver` 

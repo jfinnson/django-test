@@ -1,3 +1,4 @@
 from django.contrib import admin
+from happy_team.models import HappyHistory
 
-# Register your models here.
+admin.site.register(HappyHistory)

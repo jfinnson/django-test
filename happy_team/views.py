@@ -1,19 +1,37 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from happy_team.serializers import UserSerializer, TeamSerializer
+from django.contrib.auth.models import User
+
+from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
+from happy_team.serializers import HappyHistorySerializer, UserSerializer
+from happy_team.models import HappyHistory
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'happyHistory': reverse('happy-history-list', request=request, format=format)
+    })
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class TeamViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows teams to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = TeamSerializer
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class HappyHistoryList(generics.ListCreateAPIView):
+    queryset = HappyHistory.objects.all()
+    serializer_class = HappyHistorySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
