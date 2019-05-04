@@ -5,7 +5,8 @@
 
 {% block content %}
 
-<form method="post">
+<!-- TODO use bootstrap or other CSS lib -->
+<form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Login</button>

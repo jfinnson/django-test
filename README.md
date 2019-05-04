@@ -51,12 +51,27 @@ Following are required for running locally:
 
 OR
 
-* pycharm
+* pycharm :)
 
 THEN
 1. Create migrations `python manage.py makemigrations`
 2. Run migrations `python manage.py migrate`
 3. Create a super user `python manage.py createsuperuser --email admin@example.com --username admin`
+4. Create any desired users via Django Admin `http://127.0.0.1:8000/admin/`
 
 ## TO RUN
 * RUN `python manage.py runserver` 
+* OPEN `http://localhost:8000/`
+
+## Design Rational
+* Happiness could have been tracked on the user. I opted for a happiness history table because I thought it would be a better design choice for the long term.
+
+## Future Changes
+It is not the intent of this code to be ready for production, because of this a few things are intentionally left out for the interest of time.
+* Proper CSS library (like bootstrap)
+* Unit and integration testing
+* Exhaustive RESTful API for happiness history
+* Use of a more scalable database like postgres
+* Libraries and code required to deploy to AWS (following a tutorial like this https://realpython.com/deploying-a-django-app-and-postgresql-to-aws-elastic-beanstalk/)
+* Addition of registration, forgot password, and other account views and UI links
+* Refactor form approach to possibly follow more of the Django REST best practices (after I learn them)

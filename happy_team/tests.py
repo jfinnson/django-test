@@ -1,3 +1,3 @@
-from django.test import TestCase
+# from django.test import TestCase
 
-# Create your tests here.
+# I would create tests here if this was intended for production. Upon request I can add some.
