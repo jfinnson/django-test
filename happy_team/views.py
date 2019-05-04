@@ -65,13 +65,20 @@ class HappyHistoryStats(LoginRequiredMixin, HappinessSubmissionRequiredMixin, Te
         happy_history_by_level = defaultdict(int)
         total_happiness = 0
         number_of_users = 0
+        user_ids = set()
 
         # Get teams that user belongs to
         teams = Team.objects.filter(teammember__user=self.request.user)
         team_ids = [team.id for team in teams]
+
         # Iterate through team(s) happiness history today and collect stats
         for entry in HappyHistory.objects.filter(created_at__gte=datetime.date.today(),
                                                  user__teammember__team_id__in=team_ids):
+            # This query will 1 entry per team. I would use distinct but its not supposed by sqlite.
+            if entry.user_id in user_ids:
+                continue
+
+            user_ids.add(entry.user_id)
             happy_history_by_level[entry.happy_level] += 1
             total_happiness += entry.happy_level
             number_of_users += 1
