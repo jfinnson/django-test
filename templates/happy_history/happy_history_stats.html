@@ -6,42 +6,48 @@
 
 {% block content %}
 
-<h3>
-    <span>Teams: {{ teams|join:', ' }}</span>
-</h3>
+{% if teams %}
+    <h3>
+        <span>Teams: {{ teams|join:', ' }}</span>
+    </h3>
 
-<!-- TODO use bootstrap or other CSS lib -->
-<table style="width:100%">
-    <tr>
-        <th style="text-align: left; width: 50%;">Happiness</th>
-        <th style="text-align: left;">Number Of People</th>
-    </tr>
+    <!-- TODO use bootstrap or other CSS lib -->
+    <table style="width:100%">
+        <tr>
+            <th style="text-align: left; width: 50%;">Happiness</th>
+            <th style="text-align: left;">Number Of People</th>
+        </tr>
 
-    <tr>
-        <td>1 (Unhappy)</td>
-        <td>{{ happy_history_by_level | get_key_value:1 }}</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>{{ happy_history_by_level | get_key_value:2 }}</td>
-    </tr>
-    <tr>
-        <td>3 (Neutral)</td>
-        <td>{{ happy_history_by_level | get_key_value:3 }}</td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>{{ happy_history_by_level | get_key_value:4 }}</td>
-    </tr>
-    <tr>
-        <td>5 (Very Happy)</td>
-        <td>{{ happy_history_by_level | get_key_value:5 }}</td>
-    </tr>
-    <tr>
-        <td>Average</td>
-        <td>{{ happy_history_by_level_average }}</td>
-    </tr>
-</table>
+        <tr>
+            <td>1 (Unhappy)</td>
+            <td>{{ happy_history_by_level | get_key_value:1 }}</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>{{ happy_history_by_level | get_key_value:2 }}</td>
+        </tr>
+        <tr>
+            <td>3 (Neutral)</td>
+            <td>{{ happy_history_by_level | get_key_value:3 }}</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>{{ happy_history_by_level | get_key_value:4 }}</td>
+        </tr>
+        <tr>
+            <td>5 (Very Happy)</td>
+            <td>{{ happy_history_by_level | get_key_value:5 }}</td>
+        </tr>
+        <tr>
+            <td>Average</td>
+            <td>{{ happy_history_by_level_average }}</td>
+        </tr>
+    </table>
+{% else %}
+    <h3>
+        <span>No Teams :(</span>
+    </h3>
+{% endif %}
 
 <p><a href="{%  url 'logout' %}">Logout</a></p>
 

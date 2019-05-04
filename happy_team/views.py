@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
+from happy_team.mixins import HappinessSubmissionRequiredMixin, NoHappinessSubmissionRequiredMixin
 from happy_team.serializers import HappyHistorySerializer
 from happy_team.models import HappyHistory, Team
 
@@ -27,25 +28,18 @@ class HappyRedirect(LoginRequiredMixin, RedirectView):
             return reverse('happy-history-add')
 
 
-class HappyHistoryAdd(LoginRequiredMixin, APIView):
+class HappyHistoryAdd(LoginRequiredMixin, NoHappinessSubmissionRequiredMixin, APIView):
     """
     View for rendering form to request user's happiness, and a post to allow it's submission.
-    Redirects to stats if the user has already submitted today or after they are done submitting.
+    Redirects via mixin to stats if the user has already submitted today or after they are done submitting.
     """
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'happy_history/happy_history_add.html'
 
-    def get(self, _):
-        """ Render custom form template requesting user's happiness. Redirect if already submitted today. """
-        # Get user's happiness submission today
-        user_happiness_today = HappyHistory.objects.filter(user=self.request.user,
-                                                           created_at__gte=datetime.date.today())
-
-        # Redirect to stats if user has submitted happiness today, otherwise continue to form.
-        if user_happiness_today:
-            return redirect('happy-history-stats')
-        else:
-            return Response()
+    @staticmethod
+    def get(_):
+        """ Render custom form template requesting user's happiness. Redirect if already submitted today via mixin. """
+        return Response()
 
     def post(self, request):
         """ Save new entry into happiness history table, then redirect to stats. """
@@ -59,9 +53,10 @@ class HappyHistoryAdd(LoginRequiredMixin, APIView):
         return redirect('happy-history-stats')
 
 
-class HappyHistoryStats(LoginRequiredMixin, TemplateView):
+class HappyHistoryStats(LoginRequiredMixin, HappinessSubmissionRequiredMixin, TemplateView):
     """
     View for rendering stats about the team's happiness.
+    Redirects via mixin if user has not yet submitted happiness today.
     """
     template_name = "happy_history/happy_history_stats.html"
 
