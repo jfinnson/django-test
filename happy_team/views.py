@@ -11,7 +11,7 @@ from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
 from happy_team.serializers import HappyHistorySerializer
-from happy_team.models import HappyHistory
+from happy_team.models import HappyHistory, Team
 
 
 class HappyRedirect(LoginRequiredMixin, RedirectView):
@@ -71,14 +71,19 @@ class HappyHistoryStats(LoginRequiredMixin, TemplateView):
         total_happiness = 0
         number_of_users = 0
 
-        # Iterate through team happiness history today and collect stats
-        for entry in HappyHistory.objects.filter(created_at__gte=datetime.date.today()):
+        # Get teams that user belongs to
+        teams = Team.objects.filter(teammember__user=self.request.user)
+        team_ids = [team.id for team in teams]
+        # Iterate through team(s) happiness history today and collect stats
+        for entry in HappyHistory.objects.filter(created_at__gte=datetime.date.today(),
+                                                 user__teammember__team_id__in=team_ids):
             happy_history_by_level[entry.happy_level] += 1
             total_happiness += entry.happy_level
             number_of_users += 1
 
         # Add stats to template context
         context = super().get_context_data(**kwargs)
+        context['teams'] = teams
         context['happy_history_by_level'] = happy_history_by_level
-        context['happy_history_by_level_average'] = round(total_happiness/number_of_users, 2)
+        context['happy_history_by_level_average'] = round(total_happiness/number_of_users, 2) if number_of_users else 0
         return context
