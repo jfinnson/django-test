@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block pagetitle %}Happiness Check-in{% endblock %}
+
+{% block content %}
+
+<!-- TODO use bootstrap or other CSS lib -->
+<form action="{% url 'happy-history-add' %}" method="POST" id="frmHappy">
+    {% csrf_token %}
+    <label for="your_name">How happy are you {{  user.username }}?</label>
+    <fieldset id="happy_level">
+        <label>
+            <input type="radio" value=1 name="happy_level">
+            1 (Unhappy)
+        </label><br>
+        <label>
+            <input type="radio" value=2 name="happy_level">
+            2
+        </label><br>
+        <label>
+            <input type="radio" value=3 name="happy_level">
+            3 (Neutral)
+        </label><br>
+        <label>
+            <input type="radio" value=4 name="happy_level">
+            4
+        </label><br>
+        <label>
+            <input type="radio" value=5 name="happy_level">
+            5 (Very Happy)
+        </label><br>
+    </fieldset>
+    <div class="modal-footer">
+       <div class="pull-right">
+        <button type="submit">Submit</button>
+       </div>
+    </div>
+ </form>
+
+
+<p><a href="{%  url 'logout' %}">Logout</a></p>
+
+{% endblock %}
