@@ -57,11 +57,15 @@ THEN
 1. Create migrations `python manage.py makemigrations`
 2. Run migrations `python manage.py migrate`
 3. Create a super user `python manage.py createsuperuser --email admin@example.com --username admin`
-4. Create any desired users via Django Admin `http://127.0.0.1:8000/admin/`
+4. Create any desired users via Django Admin `python manage.py runserver` -> `http://127.0.0.1:8000/admin/`
 
 ## TO RUN
 * RUN `python manage.py runserver` 
 * OPEN `http://localhost:8000/`
+
+# Assumptions Made:
+* Users can only enter their happiness once per day
+* Happiness level can be only one of the following integers: 1,2,3,4,5 (as opposed to 1,3,5)
 
 ## Design Rational
 * Happiness could have been tracked on the user. I opted for a happiness history table because I thought it would be a 
