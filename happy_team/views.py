@@ -49,7 +49,9 @@ class HappyHistoryAdd(LoginRequiredMixin, APIView):
 
     def post(self, request):
         """ Save new entry into happiness history table, then redirect to stats. """
-        serializer = HappyHistorySerializer(data=request.data)
+
+        # Request is passed to serializer so current user can be used in validation
+        serializer = HappyHistorySerializer(data=request.data, context={'request': request})
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -69,9 +69,12 @@ THEN
 ## Future Changes
 It is not the intent of this code to be ready for production, because of this a few things are intentionally left out for the interest of time.
 * Proper CSS library (like bootstrap)
+* Proper Javascript Framework like react
+* Add error display to forms
 * Unit and integration testing
 * Exhaustive RESTful API for happiness history
 * Use of a more scalable database like postgres
 * Libraries and code required to deploy to AWS (following a tutorial like this https://realpython.com/deploying-a-django-app-and-postgresql-to-aws-elastic-beanstalk/)
 * Addition of registration, forgot password, and other account views and UI links
 * Refactor form approach to possibly follow more of the Django REST best practices (after I learn them)
+* More validation and defensive coding! But I want this to be relatively slim for now.
